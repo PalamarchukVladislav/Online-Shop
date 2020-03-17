@@ -1,8 +1,8 @@
 public class Goods {
 
-    String name;
-    Long code;
-    Long price;
+    private String name;
+    private Long code;
+    private Long price;
 
     public String getName() {
         return name;
@@ -19,10 +19,6 @@ public class Goods {
                 ", code=" + code +
                 ", price=" + price +
                 '}';
-    }
-
-    public Long getCode() {
-        return code;
     }
 
     public void setCode(Long code) {

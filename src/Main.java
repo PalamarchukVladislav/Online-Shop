@@ -1,10 +1,10 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         // Setup user
         User userMisha = new User();
@@ -43,10 +43,6 @@ public class Main {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.goods.add(apple);
         shoppingCart.goods.add(computer);
-
-        // Setup check
-        Check check = new Check();
-        // TODO
 
         // Setup shop
         Shop shop = new Shop();
@@ -90,6 +86,7 @@ public class Main {
         System.out.println(shop.getCheckForUser(userVarya).toString());
 
         // Вивести чек у файл
+        shop.writeCheckToFile(userVarya);
 
     }
 }

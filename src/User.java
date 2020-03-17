@@ -1,9 +1,9 @@
-public class User { // TODO immutable must be
+public class User {
 
-    String userName;
-    String address;
-    String email;
-    Boolean vipStatus; // true = VIP
+    private String userName;
+    private String address;
+    private String email;
+    private Boolean vipStatus; // true = VIP
 
     public String getUserName() {
         return userName;
@@ -19,10 +19,6 @@ public class User { // TODO immutable must be
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public void setEmail(String email) {

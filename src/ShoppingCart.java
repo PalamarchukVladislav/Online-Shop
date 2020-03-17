@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * - получить общую сумму
@@ -12,24 +13,17 @@ public class ShoppingCart {
     List<Goods> goods = new ArrayList<>();
 
     public Long getFinalPrice(){
-        long finalPrice = 0;
-        for (Goods good : goods) {
-            finalPrice = finalPrice + good.price;
-        }
-        return finalPrice;
+        return goods.stream().mapToLong(Goods::getPrice).sum();
     }
 
     public List<Goods> copyCart(){
-        return new ArrayList<>(goods); // TODO immutable
+        return new ArrayList<>(goods);
     }
 
     public void removeGoodsByPrice(long price){
 
-        for (int i = 0; i < goods.size(); i++) {
-            if (goods.get(i).price > price){
-                goods.remove(i);
-            }
-        }
+        IntStream.range(0, goods.size()).filter(i -> goods.get(i).getPrice() > price)
+                .forEachOrdered(i -> goods.remove(i));
     }
 
     @Override
@@ -38,5 +32,4 @@ public class ShoppingCart {
                 "goods=" + goods +
                 '}';
     }
-
 }

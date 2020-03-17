@@ -1,3 +1,6 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,16 +26,8 @@ public class Shop {
 
     Map<User, ShoppingCart> activeShoppingCart = new HashMap<>();
 
-    public List<User> getUsers() {
-        return users;
-    }
-
     public void setUsers(List<User> users) {
         this.users = users;
-    }
-
-    public List<Goods> getGoods() {
-        return goods;
     }
 
     public void setGoods(List<Goods> goods) {
@@ -43,13 +38,9 @@ public class Shop {
         return activeShoppingCart;
     }
 
-    public void setActiveShoppingCart(Map<User, ShoppingCart> activeShoppingCart) {
-        this.activeShoppingCart = activeShoppingCart;
-    }
-
     public List<User> getAllVipUsers(){
         return users.stream()
-                .filter(user -> user.vipStatus)
+                .filter(User::getVipStatus)
                 .collect(Collectors.toList());
     }
 
@@ -65,11 +56,11 @@ public class Shop {
         return activeShoppingCart.keySet();
     }
 
-    public List<Goods> getGoodsByNameAndPrice(long price, String keyWord){ // TODO naming
+    public List<Goods> getGoodsByNameAndPrice(long price, String keyWord){
 
         return goods.stream()
-                .filter(productByPrice -> productByPrice.price < price)
-                .filter(productByName -> productByName.name.contains(keyWord))
+                .filter(productByPrice -> productByPrice.getPrice() < price)
+                .filter(productByName -> productByName.getName().contains(keyWord))
                 .collect(Collectors.toList());
     }
 
@@ -80,17 +71,22 @@ public class Shop {
 
         check.setUserName(user.getUserName());
         check.setUserAddress(user.getAddress());
-        check.setGoods(getActiveShoppingCart().get(user).goods);
-        check.setFinalPrice(shoppingCart.getFinalPrice());
 
-        
+        check.setGoods(getActiveShoppingCart().entrySet().stream()
+                .filter(result -> result.getKey().equals(user))
+                .map(result -> result.getValue().goods).findFirst().get());
+
+        check.setFinalPrice(shoppingCart.getFinalPrice());
 
         return check;
     }
 
-    public void writeCheckToFile(){
+    public void writeCheckToFile(User user) throws IOException {
 
-       // TODO
+        BufferedWriter writer = new BufferedWriter(new FileWriter("check for: " + user.getUserName()));
+        writer.write(String.valueOf(getCheckForUser(user)));
+
+        writer.close();
 
     }
 
