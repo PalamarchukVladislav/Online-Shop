@@ -49,7 +49,6 @@ public class Main {
         shop.setUsers(users);
         shop.setGoods(goods);
 
-
         // Отримати фінальну суму з корзини
         System.out.println("Фінальний рахунок по корзині: " + shoppingCart.getFinalPrice() + "\n");
 
